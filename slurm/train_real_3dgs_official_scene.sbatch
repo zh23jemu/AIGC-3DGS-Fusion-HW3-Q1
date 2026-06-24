@@ -51,7 +51,7 @@ fi
 # 构建阶段需要直接访问当前环境中的 torch，因此后续子模块安装禁用 build isolation。
 "${PYTHON}" -m pip install --upgrade pip wheel ninja packaging "setuptools<82"
 "${PYTHON}" -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-"${PYTHON}" -m pip install plyfile tqdm
+"${PYTHON}" -m pip install plyfile tqdm opencv-python-headless
 "${PYTHON}" -m pip install -r "${PROJECT_DIR}/requirements.txt"
 
 cd "${GS_ROOT}"
