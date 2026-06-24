@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aigc-3dgs-fusion"
+version = "0.1.0"
+description = "HW3 Q1 pipeline for 3DGS and AIGC asset fusion"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "Pillow>=10.0",
+  "PyYAML>=6.0",
+  "typer>=0.12",
+  "rich>=13.0",
+]
+
+[project.scripts]
+aigc-3dgs-fusion = "aigc_3dgs_fusion.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

@@ -1,0 +1,11 @@
+name: aigc-3dgs-fusion
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pillow
+  - pyyaml
+  - typer
+  - rich
+

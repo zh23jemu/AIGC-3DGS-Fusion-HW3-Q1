@@ -1,0 +1,37 @@
+# Python 本地环境与缓存
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# 本地配置、密钥与运行状态
+.env
+.env.*
+*.log
+
+# 大模型权重、checkpoint 与易膨胀缓存
+checkpoints/
+weights/
+*.ckpt
+*.safetensors
+*.pth
+*.pt
+
+# 外部工具生成的中间产物
+data/raw/
+third_party/
+colmap_workspace/
+threestudio_outputs/
+zero123_outputs/
+pdf_pages/
+
+# 系统与编辑器文件
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

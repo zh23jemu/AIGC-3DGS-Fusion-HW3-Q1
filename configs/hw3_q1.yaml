@@ -1,0 +1,61 @@
+project:
+  name: AIGC-3DGS-Fusion-HW3-Q1
+  output_dir: outputs
+
+inputs:
+  object_a_images: data/raw/object_a_multiview/images
+  object_c_image: data/raw/object_c_single_view/object_c.png
+  background_images: data/raw/background_scene/images
+
+prompts:
+  object_b: "a small ceramic robot toy, clean geometry, colorful texture, studio lighting"
+
+external_tools:
+  colmap: colmap
+  gaussian_splatting_root: third_party/gaussian-splatting
+  threestudio_root: third_party/threestudio
+  zero123_root: third_party/zero123
+
+assets:
+  background:
+    type: point_cloud
+    path: outputs/demo_assets/background_scene.ply
+    transform:
+      translate: [0.0, 0.0, 0.0]
+      rotate_degrees: [0.0, 0.0, 0.0]
+      scale: 1.0
+  object_a:
+    source: multiview_3dgs
+    type: point_cloud
+    path: outputs/demo_assets/object_a_multiview.ply
+    transform:
+      translate: [-1.2, 0.0, 0.15]
+      rotate_degrees: [0.0, 0.0, 12.0]
+      scale: 0.85
+  object_b:
+    source: text_to_3d
+    type: mesh
+    path: outputs/demo_assets/object_b_text_to_3d.obj
+    transform:
+      translate: [0.35, 0.25, 0.35]
+      rotate_degrees: [0.0, 0.0, -20.0]
+      scale: 0.75
+  object_c:
+    source: image_to_3d
+    type: point_cloud
+    path: outputs/demo_assets/object_c_single_image.ply
+    transform:
+      translate: [1.25, -0.2, 0.18]
+      rotate_degrees: [0.0, 0.0, 28.0]
+      scale: 0.65
+
+render:
+  width: 960
+  height: 640
+  frames: 36
+  camera_radius: 4.4
+  camera_height: 1.8
+  look_at: [0.0, 0.0, 0.35]
+  point_size: 3
+  background_color: [248, 248, 246]
+
