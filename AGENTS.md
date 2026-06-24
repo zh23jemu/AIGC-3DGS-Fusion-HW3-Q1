@@ -30,7 +30,9 @@
 
 ## Current Status
 
-已完成题目一的可运行工程实现：真实训练链路以命令编排和 Slurm 脚本承接，轻量验证链路以内置 demo 资产与 Python 融合渲染器保证无外部数据时可跑通。已在本地 `.venv` 中安装依赖并运行 `python -m aigc_3dgs_fusion demo --config configs/hw3_q1.yaml`，生成 36 帧融合渲染、GIF、命令计划和质量摘要。
+已完成题目一的可运行工程实现：真实训练链路以命令编排和 Slurm 脚本承接，轻量验证链路以内置 demo 资产与 Python 融合渲染器保证无外部数据时可跑通。已在本地 `.venv` 中安装依赖并运行 `python -m aigc_3dgs_fusion demo --config configs/hw3_q1.yaml`，生成 36 帧融合渲染、GIF、命令计划和质量摘要。GitHub public 仓库为 `https://github.com/zh23jemu/AIGC-3DGS-Fusion-HW3-Q1`，Slurm 端已 clone 到 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`。
+
+远端真实数据训练状态：已下载并解压 3DGS 官方 T&T+DB COLMAP 数据包到 `/mnt/users/xj62kv/AIGC-3DGS-Fusion/data/raw/3dgs_official/`。短时验证 job `39430301` 已完成，使用 `tandt/train` 场景跑 500 iter，测试集 L1 `0.1183`、PSNR `16.3294`，训练集 L1 `0.1003`、PSNR `17.2122`。正式 30000 iter 训练已提交两个候选 job：`39430683` 在 `gpu` 分区排队，输出到 `outputs/real_3dgs/tandt_train_full`；`39430904` 在 `gpuHz` 分区排队，输出到 `outputs/real_3dgs/tandt_train_full_gpuhz`。
 
 ## Recent Changes
 
@@ -43,6 +45,10 @@
 - 本地验证产物已输出到 `outputs/demo_assets/`、`outputs/renders/`、`outputs/command_plan.md` 和 `outputs/metrics_summary.md`。
 - 将 Slurm 脚本默认项目目录统一为 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`。
 - 新增 `slurm/train_real_3dgs_official_scene.sbatch`，用于官方真实 COLMAP 数据的 3DGS 短时验证训练，默认使用 `tandt/train` 场景、`gpuHz` 分区和 `shortjobs` QOS。
+- 创建并推送新的 GitHub public 仓库 `zh23jemu/AIGC-3DGS-Fusion-HW3-Q1`，没有使用旧仓库 `zh23jemu/AIGC-3DGS-Fusion`。
+- Slurm 端 clone 新仓库，下载 3DGS 官方 T&T+DB COLMAP 数据包，并 clone 官方 `graphdeco-inria/gaussian-splatting` 及其子模块。
+- 修复真实训练脚本中的远端环境问题：改用子模块安装、禁用 build isolation、固定 `setuptools<82`、加载 `gcc/11.4.0`、补充 `opencv-python-headless`。
+- 完成远端 500 iter 真实数据验证训练，并提交两个 30000 iter 正式训练候选 job。
 
 ## Next TODO
 
@@ -51,12 +57,16 @@
 - 将生成帧、命令计划、质量摘要和报告图表整理进最终 PDF。
 - 如正式报告需要更高质量视觉结果，可将当前轻量融合替换为 Blender 合成或支持 Mesh/Gaussian 混合的 viewer。
 - 远端短时训练完成后检查 `logs/hw3_real_3dgs-<jobid>.out` 与 `outputs/real_3dgs/tandt_train_short/`，确认 CUDA 扩展安装和训练曲线是否正常。
+- 继续监控正式训练 job `39430683` 与 `39430904`；如果其中一个开始运行并稳定产出，可视资源情况取消另一个候选 job，避免重复消耗 GPU。
+- 正式训练完成后运行 3DGS `render.py` 和 `metrics.py`，把渲染帧、PSNR/SSIM/LPIPS 或日志曲线整理进报告。
 
 ## Open Issues
 
 - 当前仓库未包含真实多视角图片、单图输入、开源场景数据和训练权重；真实重建需要用户补充数据或在集群/云端下载数据集。
 - threestudio 与 Zero123 依赖较重，Slurm 脚本提供入口，但具体环境路径需按实际安装位置调整。
 - Windows PowerShell 默认编码会导致 Typer/Rich 的中文控制台输出显示乱码，但生成文件内容为 UTF-8，流程执行成功。
+- 当前两个 30000 iter 正式训练 job 仍在 Slurm 队列中，尚未开始运行；需要后续继续查询队列。
+- 同时保留两个候选正式训练 job 是为了提高排到 GPU 的概率，但若两个都运行会重复消耗资源，应优先保留最先运行且输出正常的一个。
 
 ## Architecture Decisions
 
