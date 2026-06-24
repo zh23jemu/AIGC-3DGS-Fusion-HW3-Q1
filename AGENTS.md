@@ -18,6 +18,7 @@
 - `slurm/`：集群训练与渲染脚本，用于 3DGS、threestudio、Zero123 和融合渲染。
 - `outputs/`：默认输出目录，保存 demo 资产、渲染帧、命令计划和摘要结果。
 - Slurm 远端同步目录默认使用 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`，避免与其他项目目录混用。
+- 官方真实数据默认放在 `/mnt/users/xj62kv/AIGC-3DGS-Fusion/data/raw/3dgs_official/`，当前优先使用 3DGS 官方 T&T+DB COLMAP 数据包进行短时训练验证。
 
 ## 开发规范
 
@@ -41,6 +42,7 @@
 - 新增 `slurm/` 下 5 个脚本，覆盖物体 A 3DGS、背景 3DGS、物体 B threestudio、物体 C Zero123 和轻量融合渲染。
 - 本地验证产物已输出到 `outputs/demo_assets/`、`outputs/renders/`、`outputs/command_plan.md` 和 `outputs/metrics_summary.md`。
 - 将 Slurm 脚本默认项目目录统一为 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`。
+- 新增 `slurm/train_real_3dgs_official_scene.sbatch`，用于官方真实 COLMAP 数据的 3DGS 短时验证训练，默认使用 `tandt/train` 场景、`gpuHz` 分区和 `shortjobs` QOS。
 
 ## Next TODO
 
@@ -48,6 +50,7 @@
 - 在真实 GPU 环境中运行 COLMAP/3DGS/threestudio/Zero123，并把产物路径填入配置。
 - 将生成帧、命令计划、质量摘要和报告图表整理进最终 PDF。
 - 如正式报告需要更高质量视觉结果，可将当前轻量融合替换为 Blender 合成或支持 Mesh/Gaussian 混合的 viewer。
+- 远端短时训练完成后检查 `logs/hw3_real_3dgs-<jobid>.out` 与 `outputs/real_3dgs/tandt_train_short/`，确认 CUDA 扩展安装和训练曲线是否正常。
 
 ## Open Issues
 

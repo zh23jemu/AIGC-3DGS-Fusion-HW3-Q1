@@ -73,8 +73,21 @@ data/
 - `slurm/generate_object_b_threestudio.sbatch`：物体 B 文本到 3D。
 - `slurm/generate_object_c_zero123.sbatch`：物体 C 单图到 3D。
 - `slurm/render_fusion_demo.sbatch`：轻量融合渲染和摘要生成。
+- `slurm/train_real_3dgs_official_scene.sbatch`：使用 3DGS 官方 T&T+DB COLMAP 真实数据启动短时验证训练。
 
 提交前请按实际集群环境修改脚本中的项目路径和外部工具路径。默认使用 `gpu` 分区、`gpo-ifv7xx` 账号和 `normal` QOS。
+
+如果使用官方真实数据，可先下载 3DGS README 中给出的 `T&T+DB COLMAP` 数据包并解压到：
+
+```text
+data/raw/3dgs_official/
+```
+
+随后提交短时验证训练：
+
+```bash
+sbatch slurm/train_real_3dgs_official_scene.sbatch
+```
 
 ## 输出说明
 
