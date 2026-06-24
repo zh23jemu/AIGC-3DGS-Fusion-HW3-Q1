@@ -44,19 +44,21 @@ if [ ! -x "${PYTHON}" ]; then
   python3 -m venv "${PROJECT_DIR}/.venv"
 fi
 
-"${PYTHON}" -m pip install --upgrade pip setuptools wheel ninja
+# PyTorch 2.12.1+cu126 当前要求 setuptools<82；同时 3DGS 的 CUDA 扩展
+# 构建阶段需要直接访问当前环境中的 torch，因此后续子模块安装禁用 build isolation。
+"${PYTHON}" -m pip install --upgrade pip wheel ninja packaging "setuptools<82"
 "${PYTHON}" -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
 "${PYTHON}" -m pip install plyfile tqdm
 "${PYTHON}" -m pip install -r "${PROJECT_DIR}/requirements.txt"
 
 cd "${GS_ROOT}"
-"${PYTHON}" -m pip install "${GS_ROOT}/submodules/diff-gaussian-rasterization"
-"${PYTHON}" -m pip install "${GS_ROOT}/submodules/simple-knn"
+"${PYTHON}" -m pip install --no-build-isolation "${GS_ROOT}/submodules/diff-gaussian-rasterization"
+"${PYTHON}" -m pip install --no-build-isolation "${GS_ROOT}/submodules/simple-knn"
 
 # 新版 3DGS 仓库包含 fused-ssim 子模块，用于加速/增强训练损失；如果当前
 # checkout 存在该目录，就一并安装。旧版仓库没有该子模块时不会影响训练。
 if [ -d "${GS_ROOT}/submodules/fused-ssim" ]; then
-  "${PYTHON}" -m pip install "${GS_ROOT}/submodules/fused-ssim"
+  "${PYTHON}" -m pip install --no-build-isolation "${GS_ROOT}/submodules/fused-ssim"
 fi
 
 # 这是短时验证训练，不追求最终质量；正式实验可把 ITERATIONS 提高到 30000，
