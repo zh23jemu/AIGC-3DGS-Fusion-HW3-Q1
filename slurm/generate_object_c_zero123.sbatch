@@ -16,7 +16,7 @@ set -euo pipefail
 # 默认命令是占位式标准入口，请按实际仓库 README 调整脚本名和参数。
 module load slurm || true
 
-PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/underwater-crack-correction/AIGC-3DGS-Fusion}"
+PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/AIGC-3DGS-Fusion}"
 ZERO123_ROOT="${ZERO123_ROOT:-${PROJECT_DIR}/third_party/zero123}"
 INPUT_IMAGE="${INPUT_IMAGE:-${PROJECT_DIR}/data/raw/object_c_single_view/object_c.png}"
 OUTPUT_DIR="${OUTPUT_DIR:-${PROJECT_DIR}/outputs/object_c_zero123}"
@@ -27,4 +27,3 @@ cd "${ZERO123_ROOT}"
 "${PROJECT_DIR}/.venv/bin/python" run_zero123.py \
   --input "${INPUT_IMAGE}" \
   --output_dir "${OUTPUT_DIR}"
-

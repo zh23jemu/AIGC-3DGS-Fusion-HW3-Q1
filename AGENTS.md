@@ -17,6 +17,7 @@
 - `src/aigc_3dgs_fusion/`：核心 Python 包，包含配置读取、轻量 demo 资产生成、统一点云/OBJ 读取、场景融合渲染、命令计划生成和指标摘要。
 - `slurm/`：集群训练与渲染脚本，用于 3DGS、threestudio、Zero123 和融合渲染。
 - `outputs/`：默认输出目录，保存 demo 资产、渲染帧、命令计划和摘要结果。
+- Slurm 远端同步目录默认使用 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`，避免与其他项目目录混用。
 
 ## 开发规范
 
@@ -39,6 +40,7 @@
 - 新增 `src/aigc_3dgs_fusion/` Python 包，包含 demo 资产生成、PLY/OBJ 解析、统一坐标变换、CPU 点云投影渲染、命令计划生成和质量摘要。
 - 新增 `slurm/` 下 5 个脚本，覆盖物体 A 3DGS、背景 3DGS、物体 B threestudio、物体 C Zero123 和轻量融合渲染。
 - 本地验证产物已输出到 `outputs/demo_assets/`、`outputs/renders/`、`outputs/command_plan.md` 和 `outputs/metrics_summary.md`。
+- 将 Slurm 脚本默认项目目录统一为 `/mnt/users/xj62kv/AIGC-3DGS-Fusion`。
 
 ## Next TODO
 

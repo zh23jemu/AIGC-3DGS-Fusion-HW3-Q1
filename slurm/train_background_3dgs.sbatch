@@ -16,7 +16,7 @@ set -euo pipefail
 # counter 等开源场景中的一个，或使用自己采集的背景多视角图片。
 module load slurm || true
 
-PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/underwater-crack-correction/AIGC-3DGS-Fusion}"
+PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/AIGC-3DGS-Fusion}"
 GS_ROOT="${GS_ROOT:-${PROJECT_DIR}/third_party/gaussian-splatting}"
 IMAGE_DIR="${IMAGE_DIR:-${PROJECT_DIR}/data/raw/background_scene/images}"
 COLMAP_DIR="${COLMAP_DIR:-${PROJECT_DIR}/outputs/background_colmap}"
@@ -34,4 +34,3 @@ cd "${GS_ROOT}"
 "${PROJECT_DIR}/.venv/bin/python" convert.py -s "${COLMAP_DIR}"
 "${PROJECT_DIR}/.venv/bin/python" train.py -s "${COLMAP_DIR}" -m "${MODEL_DIR}"
 "${PROJECT_DIR}/.venv/bin/python" render.py -m "${MODEL_DIR}"
-

@@ -16,7 +16,7 @@ set -euo pipefail
 # 使用前请把 PROJECT_DIR 和 GS_ROOT 改成集群上的实际路径。
 module load slurm || true
 
-PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/underwater-crack-correction/AIGC-3DGS-Fusion}"
+PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/AIGC-3DGS-Fusion}"
 GS_ROOT="${GS_ROOT:-${PROJECT_DIR}/third_party/gaussian-splatting}"
 IMAGE_DIR="${IMAGE_DIR:-${PROJECT_DIR}/data/raw/object_a_multiview/images}"
 COLMAP_DIR="${COLMAP_DIR:-${PROJECT_DIR}/outputs/object_a_colmap}"
@@ -34,4 +34,3 @@ cd "${GS_ROOT}"
 "${PROJECT_DIR}/.venv/bin/python" convert.py -s "${COLMAP_DIR}"
 "${PROJECT_DIR}/.venv/bin/python" train.py -s "${COLMAP_DIR}" -m "${MODEL_DIR}"
 "${PROJECT_DIR}/.venv/bin/python" render.py -m "${MODEL_DIR}"
-

@@ -15,7 +15,7 @@ set -euo pipefail
 # 如果只是短时验证，也可以提交时覆盖为：sbatch --qos=shortjobs --time=01:00:00 ...
 module load slurm || true
 
-PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/underwater-crack-correction/AIGC-3DGS-Fusion}"
+PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/AIGC-3DGS-Fusion}"
 CONFIG_PATH="${CONFIG_PATH:-${PROJECT_DIR}/configs/hw3_q1.yaml}"
 
 mkdir -p "${PROJECT_DIR}/logs"
@@ -24,4 +24,3 @@ cd "${PROJECT_DIR}"
 "${PROJECT_DIR}/.venv/bin/python" -m pip install -r requirements.txt
 "${PROJECT_DIR}/.venv/bin/python" -m pip install -e .
 "${PROJECT_DIR}/.venv/bin/python" -m aigc_3dgs_fusion demo --config "${CONFIG_PATH}"
-
