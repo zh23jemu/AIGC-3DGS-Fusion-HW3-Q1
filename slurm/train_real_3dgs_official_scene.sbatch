@@ -19,6 +19,7 @@ set -euo pipefail
 # 先验证 CUDA 扩展、PyTorch、数据格式和训练入口是否都能跑通。
 module load slurm || true
 module load python/3.11.7
+module load gcc/11.4.0
 
 PROJECT_DIR="${PROJECT_DIR:-/mnt/users/xj62kv/AIGC-3DGS-Fusion}"
 GS_ROOT="${GS_ROOT:-${PROJECT_DIR}/third_party/gaussian-splatting}"
@@ -32,6 +33,8 @@ export CUDA_HOME="${CUDA_HOME:-/usr/local/cuda-12.8}"
 export PATH="${CUDA_HOME}/bin:${PATH}"
 export LD_LIBRARY_PATH="${CUDA_HOME}/lib64:${LD_LIBRARY_PATH:-}"
 export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-8.9}"
+export CC="${CC:-gcc}"
+export CXX="${CXX:-g++}"
 
 PYTHON="${PROJECT_DIR}/.venv/bin/python"
 
