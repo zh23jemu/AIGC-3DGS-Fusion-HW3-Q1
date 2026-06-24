@@ -50,7 +50,14 @@ fi
 "${PYTHON}" -m pip install -r "${PROJECT_DIR}/requirements.txt"
 
 cd "${GS_ROOT}"
-"${PYTHON}" -m pip install .
+"${PYTHON}" -m pip install "${GS_ROOT}/submodules/diff-gaussian-rasterization"
+"${PYTHON}" -m pip install "${GS_ROOT}/submodules/simple-knn"
+
+# 新版 3DGS 仓库包含 fused-ssim 子模块，用于加速/增强训练损失；如果当前
+# checkout 存在该目录，就一并安装。旧版仓库没有该子模块时不会影响训练。
+if [ -d "${GS_ROOT}/submodules/fused-ssim" ]; then
+  "${PYTHON}" -m pip install "${GS_ROOT}/submodules/fused-ssim"
+fi
 
 # 这是短时验证训练，不追求最终质量；正式实验可把 ITERATIONS 提高到 30000，
 # 并将 QOS 改回 normal、time 改为 12 小时或更长。
@@ -62,4 +69,3 @@ cd "${GS_ROOT}"
   --data_device cpu \
   --test_iterations 500 1000 "${ITERATIONS}" \
   --save_iterations "${ITERATIONS}"
-
